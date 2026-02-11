@@ -10,4 +10,10 @@ export default defineConfig({
       },
     }),
   ],
+  server: {
+    port: 3000,
+    cors: {
+      origin: 'http:\/\/127\.0\.0\.1:11434'
+    }
+  }
 })
