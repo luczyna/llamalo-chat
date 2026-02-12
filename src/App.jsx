@@ -56,8 +56,11 @@ function App() {
 
   return (
     <>
-      <h1>LLamaLO App</h1>
-      <NavigationHeader ctx={connectionStatus} />
+
+      <NavigationHeader
+        ctx={connectionStatus}
+        list={convolist}
+        activeConvo={activeConvo} />
       <ConversationList
         list={convolist}
         model={activeModel}
