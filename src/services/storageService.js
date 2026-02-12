@@ -39,4 +39,9 @@ export function updateConvUserSays(convoId, modelname, message, conversations) {
   return newMessage.id;
 }
 
-export function deleteConversation() {}
+export function deleteConversation(convoId, conversations) {
+  const convo = conversations.findIndex( c => c.id === convoId );
+  conversations.splice(convo, 1);
+
+  localStorage.setItem('llamaTexts', JSON.stringify(conversations));
+}

@@ -42,6 +42,12 @@ function ConversationList(props) {
     props.updateActiveConvo(id);
   }
 
+  function deleteConvoFromStorage(convoId) {
+    sts.deleteConversation(convoId, props.list);
+    const updates = sts.getConversations();
+    props.updateConvoList(updates);
+  }
+
   return (
     <div>
       {!props.list.length && <p>there are no conversations...</p>}
@@ -49,10 +55,10 @@ function ConversationList(props) {
       {(props.list.length > 0) &&
         <ul>
           {props.list.map((item, i) => {
-            return <li key={item.id} datakey={item.id}
-              className={"convoListName " + ((props.activeConvo === item.id) ? 'activeConvoName' : 'notactive')}
-              onClick={setActiveConvo}>
-                {item.name}
+            return <li key={item.id}
+              className={"convoListName " + ((props.activeConvo === item.id) ? 'activeConvoName' : 'notactive')}>
+                <span onClick={setActiveConvo} datakey={item.id}>{item.name}</span>
+                <button type="button" onClick={e => deleteConvoFromStorage(item.id)} title="delete this conversation">&times;</button>
               </li>
           })
           }
