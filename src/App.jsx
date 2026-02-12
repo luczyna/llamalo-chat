@@ -9,35 +9,40 @@ import * as sts from './services/storageService.js'
 
 function App() {
   const [connectionStatus, updateConnection] = useState(1);
-  const [chatlist, updateChatlist] = useState([]);
+  const [convolist, updateConvolist] = useState([]);
   const [modellist, updateModellist] = useState([]);
-  const [activeModel, updateActiveModel] = useState(null);
-  const [activeConvo, updateActiveConvo] = useState(null);
+  const [activeModel, updateActiveModel] = useState('');
+  const [activeConvo, updateActiveConvo] = useState('');
 
   const OLLAMA_URL = localStorage.getItem("ollamaUrl") || "http://127.0.0.1:11434";
 
   useEffect(() => {
     // check for ollama availability by first checking for models
-    console.log('App useEffect');
     checkOllamaAvailability();
     checkConversations();
   }, []);
 
   async function checkOllamaAvailability() {
     updateConnection(0);
+    let foundError = false;
+
     try {
       const models = await ols.getOllamaModels(OLLAMA_URL);
       updateModellist(models);
 
       if (models.length) {
         // use the first model in the list
-        updateActiveModel(0);
+        updateActiveModel(models[0].model);
       }
     } catch(e) {
       console.log(e);
-      updateConnection(2);
+      foundError = true;
     } finally {
-      updateConnection(1);
+      if (foundError) {
+        updateConnection(2);
+      } else {
+        updateConnection(1);
+      }
     }
   }
 
@@ -45,7 +50,7 @@ function App() {
     const conversations = sts.getConversations();
 
     if (conversations && conversations.length) {
-      updateChatlist(conversations);
+      updateConvolist(conversations);
     }
   }
 
@@ -54,13 +59,20 @@ function App() {
       <h1>LLamaLO App</h1>
       <NavigationHeader ctx={connectionStatus} />
       <ConversationList
-        list={chatlist}
+        list={convolist}
         model={activeModel}
         activeConvo={activeConvo}
-        updateChatlist={updateChatlist}
-        updateActiveConvo={updateActiveConvo}/>
-      <ConversationLog />
-      <ConversateForm />
+        updateConvoList={updateConvolist}
+        updateActiveConvo={updateActiveConvo} />
+      <ConversationLog
+        activeConvo={activeConvo}
+        convoData={convolist.find( c => c.id === activeConvo )} />
+      <ConversateForm
+        ready={connectionStatus === 1}
+        list={convolist}
+        model={activeModel}
+        activeConvo={activeConvo}
+        reloadConversations={checkConversations} />
     </>
   )
 }

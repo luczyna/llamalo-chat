@@ -1,10 +1,10 @@
-function generateId() {
-  return Math.random().toString(36).substring(2) + Date.now().toString(36);
-}
+import {
+  Conversation,
+  UserMessage,
+  AssistantMessage
+} from './modelService.js';
 
 export function getConversations() {
-  // return localStorage.getItem('llamaTexts', JSON.stringify(conversations));
-
   const savedConversations = localStorage.getItem('llamaTexts');
 
   if (savedConversations) {
@@ -21,16 +21,22 @@ export function getConversations() {
 }
 
 export function saveConversation(chatname, modelname, conversations) {
-  const newConversation = {
-    id: generateId(),
-    name: chatname,
-    messages: [],
-    model: modelname,
-    createdAt: new Date().toISOString()
-  };
+  const newConversation = new Conversation(chatname, modelname);
 
   conversations.push(newConversation);
 
   localStorage.setItem('llamaTexts', JSON.stringify(conversations));
   return newConversation.id;
 }
+
+export function updateConvUserSays(convoId, modelname, message, conversations) {
+  const newMessage = new UserMessage(convoId, modelname, message);
+
+  const convo = conversations.find( c => c.id === convoId );
+  convo.messages.push(newMessage);
+
+  localStorage.setItem('llamaTexts', JSON.stringify(conversations));
+  return newMessage.id;
+}
+
+export function deleteConversation() {}
