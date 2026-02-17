@@ -7,7 +7,7 @@ function NavigationHeader(props) {
   return (
     <nav>
       <h1>LLamaLO</h1>
-      {props.activeConvo && <p>{props.list.find(c => c.id === props.activeConvo ).name}</p>}
+      {props.activeConvo.length > 0 && <p>{props.list.find(c => c.id === props.activeConvo ).name}</p>}
       <p>connection: {ctxStatus}</p>
       <p>settings</p>
     </nav>

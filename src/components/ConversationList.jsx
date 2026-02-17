@@ -43,6 +43,10 @@ function ConversationList(props) {
   }
 
   function deleteConvoFromStorage(convoId) {
+    if (props.activeConvo === convoId) {
+      props.updateActiveConvo('');
+    }
+    
     sts.deleteConversation(convoId, props.list);
     const updates = sts.getConversations();
     props.updateConvoList(updates);
