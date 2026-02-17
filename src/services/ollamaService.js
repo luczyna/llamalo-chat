@@ -15,55 +15,54 @@ export async function getOllamaModels(OLLAMA_URL) {
   }
 }
 
-function makeNewUserMessage(convoId, modelToAsk, message) {
-    const newMessage = {
-      id: generateId(),
-      chatId: convoId,
-      createdAt: new Date().toISOString(),
-      model: modelToAsk,
-      owner: 'user',
-      // TODO where does AI santitastion wow
-      content: message
+export async function getOllamaResponse(OLLAMA_URL, model, conversation, updateStreamingMessage, finishedFunc) {
+  try {
+    const url = `${OLLAMA_URL}/api/chat`;
+    const convoId = conversation.id;
+
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        model: model,
+        messages: conversation.messages,
+        stream: true
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Server error: ${response.status}`);
     }
 
-    cl = state.chatList.find(c => c.id === state.selectedChat);
-    if (cl) {
-      cl.messages.push(newMessage);
-      saveChatStorage();
+    const decoder = new TextDecoder();
 
-      modelmessages = cl.messages.map(m => {
-        return {
-          role: m.owner,
-          content: m.content
+    let accumulatedMessage = '';
+
+    for await (const chunk of response.body) {
+      const dc = decoder.decode(chunk);
+      const lines = dc.split('\n');
+
+      for (const line of lines) {
+        if (line.trim() === '') continue;
+
+        try {
+          const data = JSON.parse(line);
+          if (data.message?.content) {
+            accumulatedMessage += data.message.content;
+
+            updateStreamingMessage(accumulatedMessage);
+          }
+        } catch (e) {
+          console.warn('Failed to parse line:', line);
         }
-      });
-
-      elem.humantext.value = "";
-      updateChatContent(false, newMessage.id);
-      askLlama(modelToAsk, modelmessages);
+      }
     }
+  } catch (e) {
+    console.error('Error in chat request:', e);
+    throw new Error('Error in chat request');
+  } finally {
+    finishedFunc();
   }
-
-  function makeNewAssistantMessage() {
-    const modelToAsk = elem.modelselect.value;
-    const chat = state.selectedChat;
-    const id = generateId();
-
-    const newMessage = {
-      id: id,
-      chatId: chat,
-      createdAt: new Date().toISOString(),
-      model: modelToAsk,
-      owner: 'assistant',
-      content: '',
-    }
-
-    cl = state.chatList.find(c => c.id === chat);
-    if (cl) {
-      cl.messages.push(newMessage);
-      saveChatStorage();
-      updateChatContent(false, newMessage.id);
-    }
-
-    return id;
-  }
+}

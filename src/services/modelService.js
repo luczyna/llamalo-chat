@@ -11,7 +11,7 @@ export function Conversation(convoname, modelname) {
 export function UserMessage(convoId, modelname, message) {
   return {
     id: generateId(),
-    chatId: convoId,
+    convoId: convoId,
     model: modelname,
     role: 'user',
     content: message,
@@ -22,7 +22,7 @@ export function UserMessage(convoId, modelname, message) {
 export function AssistantMessage(convoId, modelname) {
   return {
     id: generateId(),
-    chatId: convoId,
+    convoId: convoId,
     model: modelname,
     role: 'assistant',
     content: '',

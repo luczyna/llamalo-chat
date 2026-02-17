@@ -29,6 +29,13 @@ export function saveConversation(chatname, modelname, conversations) {
   return newConversation.id;
 }
 
+export function deleteConversation(convoId, conversations) {
+  const convo = conversations.findIndex( c => c.id === convoId );
+  conversations.splice(convo, 1);
+
+  localStorage.setItem('llamaTexts', JSON.stringify(conversations));
+}
+
 export function updateConvUserSays(convoId, modelname, message, conversations) {
   const newMessage = new UserMessage(convoId, modelname, message);
 
@@ -39,9 +46,20 @@ export function updateConvUserSays(convoId, modelname, message, conversations) {
   return newMessage.id;
 }
 
-export function deleteConversation(convoId, conversations) {
-  const convo = conversations.findIndex( c => c.id === convoId );
-  conversations.splice(convo, 1);
+export function startConvAssistantSays(convoId, modelname, message, conversations) {
+  const newMessage = new AssistantMessage(convoId, modelname, message);
+
+  const convo = conversations.find( c => c.id === convoId );
+  convo.messages.push(newMessage);
+
+  localStorage.setItem('llamaTexts', JSON.stringify(conversations));
+  return newMessage.id;
+}
+
+export function updateConvAssistantSays(messageId, convoId, message, conversations) {
+  const convo = conversations.find( c => c.id === convoId );
+  const streamingMessage = convo.messages.find(m => m.id === messageId);
+  streamingMessage.content = message;
 
   localStorage.setItem('llamaTexts', JSON.stringify(conversations));
 }

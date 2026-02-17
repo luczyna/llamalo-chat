@@ -54,9 +54,33 @@ function App() {
     }
   }
 
+  function converseWithOllama() {
+    // show the user message
+    checkConversations();
+
+    // create the assistant message in LocalStorage
+    // save the response to the assistant message
+    // send the prompt to Ollama
+
+    const conversation = convolist.find(c => c.id === activeConvo);
+    const messageId = sts.startConvAssistantSays(activeConvo, activeModel, '', convolist);
+
+    function updateStreamingMessage(accumulatedMessage) {
+      sts.updateConvAssistantSays(messageId, activeConvo, accumulatedMessage, convolist);
+
+      checkConversations();
+    }
+
+    function finishingTouches() {
+      console.log('i am finishededed');
+    }
+
+    ols.getOllamaResponse(OLLAMA_URL, activeModel, conversation, updateStreamingMessage, finishingTouches);
+  }
+
+
   return (
     <>
-
       <NavigationHeader
         ctx={connectionStatus}
         list={convolist}
@@ -75,7 +99,7 @@ function App() {
         list={convolist}
         model={activeModel}
         activeConvo={activeConvo}
-        reloadConversations={checkConversations} />
+        requestOllamaResponse={converseWithOllama} />
     </>
   )
 }

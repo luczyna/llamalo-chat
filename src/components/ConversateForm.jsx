@@ -7,19 +7,11 @@ import * as sts from '../services/storageService.js';
 //   list: chatlist of ollama conversations
 //   model: current model
 //   activeConvo: current conversation
-//   reloadConversations: once a message is sent, update App
+//   requestOllamaResponse: send the message responsibility up to parent App
 // }
 function ConversateForm(props) {
   const [message, setMessage] = useState('');
   const [submittable, setSubmittable] = useState(false);
-
-  function sendConvoMessage() {
-    sts.updateConvUserSays(props.activeConvo, props.model, message, props.list);
-    setMessage('');
-    props.reloadConversations();
-
-    // TODO send the REQUEST
-  }
 
   function captureMessage(event) {
     const value = event.target.value;
@@ -33,7 +25,12 @@ function ConversateForm(props) {
     }
   }
 
-  // console.log('submittable', submittable, '\tactiveConvo', props.activeConvo.length > 0, '\tready', props.ready);
+  function sendConvoMessage() {
+    sts.updateConvUserSays(props.activeConvo, props.model, message, props.list);
+    setMessage('');
+    props.requestOllamaResponse();
+  }
+
   const disabled = !submittable || !props.activeConvo.length || !props.ready;
 
   return (
