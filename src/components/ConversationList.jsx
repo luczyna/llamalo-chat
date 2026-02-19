@@ -46,18 +46,18 @@ function ConversationList(props) {
     if (props.activeConvo === convoId) {
       props.updateActiveConvo('');
     }
-    
+
     sts.deleteConversation(convoId, props.list);
     const updates = sts.getConversations();
     props.updateConvoList(updates);
   }
 
   return (
-    <div>
+    <div class="conversation-list">
       {!props.list.length && <p>there are no conversations...</p>}
 
       {(props.list.length > 0) &&
-        <ul>
+        <ul class="convolist-items">
           {props.list.map((item, i) => {
             return <li key={item.id}
               className={"convoListName " + ((props.activeConvo === item.id) ? 'activeConvoName' : 'notactive')}>

@@ -34,7 +34,7 @@ function ConversateForm(props) {
   const disabled = !submittable || !props.activeConvo.length || !props.ready;
 
   return (
-    <div>
+    <div class="message-composer-wrapper">
       <textarea value={message} onChange={captureMessage} />
       <button type="button" onClick={sendConvoMessage} disabled={disabled}>send</button>
     </div>

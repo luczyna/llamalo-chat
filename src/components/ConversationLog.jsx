@@ -10,19 +10,19 @@ function ConversationLog(props) {
 
   if (props.convoData == undefined) {
     return (
-      <div>
+      <div class="messages-wrapper">
         <p>choose a convo</p>
       </div>
     )
   } else {
     if (!props.convoData.messages.length) {
       return (
-        <div>
+        <div class="messages-wrapper">
           <p>no messages...</p>
         </div>
       )
     } else if (props.convoData.messages.length) {
-      return props.convoData.messages.map((message, i) => {
+      const messages = props.convoData.messages.map((message, i) => {
         const postdate = new Date(message.createdAt);
         const day = postdate.toLocaleDateString(navigator.language, {dateStyle: 'long'});
         const time = postdate.toLocaleTimeString(navigator.language, {timeStyle: 'short'});
@@ -40,6 +40,12 @@ function ConversationLog(props) {
           </footer>
         </div>
       });
+
+      return (
+        <div class="messages-wrapper">
+          {messages}
+        </div>
+      )
     }
   }
 }

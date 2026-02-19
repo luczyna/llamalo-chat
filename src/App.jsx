@@ -85,21 +85,27 @@ function App() {
         ctx={connectionStatus}
         list={convolist}
         activeConvo={activeConvo} />
-      <ConversationList
-        list={convolist}
-        model={activeModel}
-        activeConvo={activeConvo}
-        updateConvoList={updateConvolist}
-        updateActiveConvo={updateActiveConvo} />
-      <ConversationLog
-        activeConvo={activeConvo}
-        convoData={convolist.find( c => c.id === activeConvo )} />
-      <ConversateForm
-        ready={connectionStatus === 1}
-        list={convolist}
-        model={activeModel}
-        activeConvo={activeConvo}
-        requestOllamaResponse={converseWithOllama} />
+      <main class="maincontent">
+        <ConversationList
+          list={convolist}
+          model={activeModel}
+          activeConvo={activeConvo}
+          updateConvoList={updateConvolist}
+          updateActiveConvo={updateActiveConvo} />
+
+        <div class="conversation-container">
+          <ConversationLog
+            activeConvo={activeConvo}
+            convoData={convolist.find( c => c.id === activeConvo )} />
+          <ConversateForm
+            ready={connectionStatus === 1}
+            list={convolist}
+            model={activeModel}
+            activeConvo={activeConvo}
+            requestOllamaResponse={converseWithOllama} />
+        </div>
+
+      </main>
     </>
   )
 }
