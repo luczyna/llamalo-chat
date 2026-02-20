@@ -7,6 +7,13 @@
     bg-slate-200;
 }
 
+.navigation-header.nav-error-alert {
+  @apply
+    bg-rose-300
+    text-fuchsia-900
+    font-bold;
+}
+
 .app-name {
   width: 300px;
   @apply
@@ -16,6 +23,12 @@
     text-gray-800
     bg-slate-300
     flex;
+}
+
+.navigation-header.nav-error-alert .app-name {
+  @apply
+    bg-rose-400
+    text-red-950;
 }
 
 .app-settings-btn {
@@ -36,6 +49,12 @@
     font-bold
     text-gray-800;
 }
+
+.navigation-header.nav-error-alert .convo-nav-name {
+  @apply
+    text-red-800;
+}
+
 
 .app-connection-status {
   @apply

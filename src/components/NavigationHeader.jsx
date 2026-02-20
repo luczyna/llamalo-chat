@@ -6,7 +6,7 @@ function NavigationHeader(props) {
   const ctxStatus = connectionStatusLabels[props.ctx];
 
   return (
-    <nav class="navigation-header">
+    <nav class={"navigation-header " + ((props.ctx === 2) ? 'nav-error-alert' : '') }>
       <h1 class="app-name">
         llamalo
         <button type="button" class="app-settings-btn" title="settings"><SettingsIcon /></button>
