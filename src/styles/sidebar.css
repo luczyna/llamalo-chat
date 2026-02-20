@@ -1,6 +1,11 @@
-@import "tailwindcss";
+@reference "../index.css";
 
-/* .conversation-list {} */
+.conversation-list {
+  @apply
+    bg-mist-100
+    border-r-2
+    border-r-slate-200;
+}
 
 .convolist-items {
   flex-grow: 1;
@@ -14,10 +19,17 @@
     flex-row
     items-center
     p-2
+    text-slate-700
+    bg-transparent
+    hover:bg-mist-200
+    transition-colors
+    duration-150
 }
 
 .convoListValue {
-  @apply mr-1;
+  @apply
+    mr-1
+    cursor-pointer;
 }
 
 .activeConvoName .convoListValue {
@@ -31,7 +43,7 @@
     flex
     flex-wrap
     justify-between
-    border-t-gray-300
+    border-t-slate-200
     border-t-2;
 }
 

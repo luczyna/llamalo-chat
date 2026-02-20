@@ -27,13 +27,15 @@ function ConversationLog(props) {
         const day = postdate.toLocaleDateString(navigator.language, {dateStyle: 'long'});
         const time = postdate.toLocaleTimeString(navigator.language, {timeStyle: 'short'});
 
-
-        return <div className="message-wrapper" key={message.id}>
+        const classnames = ['message-wrapper']
+        classnames.push((message.role === 'user') ? 'messagetype-user' : 'messagetype-assistant');
+        
+        return <div className={classnames.join(' ')} key={message.id}>
           <header>
             <span>{message.role}</span>
             <span>{[day, time].join(', ')}</span>
           </header>
-          <div>
+          <div class="message-body">
             <p>{message.content}</p>
           </div>
           <footer>

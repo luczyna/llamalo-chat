@@ -53,7 +53,7 @@ function ConversationList(props) {
   }
 
   return (
-    <div class="conversation-list bg-gray-200">
+    <div class="conversation-list">
       {!props.list.length && <p>there are no conversations...</p>}
 
       {(props.list.length > 0) &&
@@ -61,9 +61,9 @@ function ConversationList(props) {
           {props.list.map((item, i) => {
             return <li key={item.id}
               className={"convoListName " + ((props.activeConvo === item.id) ? 'activeConvoName' : 'notactive')}>
-                <span class="convoListValue cursor-pointer" onClick={setActiveConvo} datakey={item.id}>{item.name}</span>
+                <span class="convoListValue" onClick={setActiveConvo} datakey={item.id}>{item.name}</span>
 
-                <button type="button" onClick={e => deleteConvoFromStorage(item.id)} title="delete this conversation" class="btn-link">&times;</button>
+                <button type="button" onClick={e => deleteConvoFromStorage(item.id)} title="delete this conversation" class="btn-link ml-2">&times;</button>
               </li>
           })
           }

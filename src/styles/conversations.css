@@ -1,0 +1,84 @@
+@reference "../index.css";
+
+.conversation-container {
+  @apply
+    pt-1
+    bg-mist-100;
+}
+
+.messages-wrapper {
+  @apply
+    p-2;
+}
+
+.message-composer-wrapper {
+  @apply
+    p-2
+    bg-mist-100
+    border-t-2
+    border-t-slate-200
+    flex
+    justify-between;
+}
+
+.message-wrapper {
+  @apply
+    rounded-lg
+    bg-gray-50
+    border-2
+    border-slate-200
+    mb-3;
+}
+
+
+.messagetype-user {
+  @apply
+    ml-15
+    bg-gray-100;
+}
+
+.messagetype-assistant {
+  @apply
+    mr-15;
+}
+
+.message-wrapper header {
+  @apply
+    border-b-2
+    border-slate-200
+    p-2
+    text-slate-500
+    text-sm
+    flex
+    flex-row
+    justify-between;
+}
+
+.message-wrapper .message-body {
+  @apply
+    py-4
+    px-2
+    text-slate-600
+}
+
+.composer-area {
+  @apply
+    p-2
+    mr-2
+    rounded-lg
+    bg-mist-50
+    grow
+    border-2
+    border-mist-300
+    focus:border-cyan-200
+    focus:outline-0
+    focus:bg-white
+    transition-colors
+    duration-150;
+}
+
+.composer-controls {
+  @apply
+    flex
+    flex-col-reverse;
+}

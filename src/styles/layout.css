@@ -1,20 +1,18 @@
-@import "tailwindcss";
+@reference "../index.css";
 
 #root {
   height: 100vh;
 }
 
 .navigation-header {
-  height: 90px;
+  height: 44px;
   display: flex;
   justify-content: flex-start;
   align-items: baseline;
-  /* padding: 20px 20px 5px; */
 }
 
 .maincontent {
-  height: calc(100vh - 90px);
-  /* background: green; */
+  height: calc(100vh - 44px);
   display: flex;
 }
 

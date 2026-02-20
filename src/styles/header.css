@@ -1,0 +1,44 @@
+@reference "../index.css";
+
+.navigation-header {
+  @apply
+    flex
+    flex-row
+    bg-slate-200;
+}
+
+.app-name {
+  width: 300px;
+  @apply
+    p-2
+    text-lg
+    font-bold
+    text-gray-800
+    bg-slate-300
+    flex;
+}
+
+.app-settings-btn {
+  @apply
+    bg-none
+    p-0
+    ml-1;
+}
+
+.app-settings-icon {
+
+}
+
+.convo-nav-name {
+  @apply
+    px-2
+    text-lg
+    font-bold
+    text-gray-800;
+}
+
+.app-connection-status {
+  @apply
+    px-2
+    ml-auto
+}

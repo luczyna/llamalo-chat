@@ -93,7 +93,7 @@ function App() {
           updateConvoList={updateConvolist}
           updateActiveConvo={updateActiveConvo} />
 
-        <div class="conversation-container bg-gray-100 p-2">
+        <div class="conversation-container">
           <ConversationLog
             activeConvo={activeConvo}
             convoData={convolist.find( c => c.id === activeConvo )} />

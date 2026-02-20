@@ -31,12 +31,20 @@ function ConversateForm(props) {
     props.requestOllamaResponse();
   }
 
+  function hextras() {
+    // placeholder for whats to come
+  }
+
   const disabled = !submittable || !props.activeConvo.length || !props.ready;
 
   return (
     <div class="message-composer-wrapper">
-      <textarea value={message} onChange={captureMessage} />
-      <button type="button" onClick={sendConvoMessage} disabled={disabled}>send</button>
+      <textarea class="composer-area" value={message} onChange={captureMessage} />
+
+      <div class="composer-controls">
+        <button type="button" onClick={sendConvoMessage} disabled={disabled} class="btn-action grow mt-2">send</button>
+        <button type="button" onClick={hextras} class="btn-default">adjust</button>
+      </div>
     </div>
   )
 }
