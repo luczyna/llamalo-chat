@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import * as sts from '../services/storageService.js'
 
 // ConversationList props
@@ -53,7 +53,7 @@ function ConversationList(props) {
   }
 
   return (
-    <div class="conversation-list">
+    <div class="conversation-list bg-gray-200">
       {!props.list.length && <p>there are no conversations...</p>}
 
       {(props.list.length > 0) &&
@@ -61,23 +61,29 @@ function ConversationList(props) {
           {props.list.map((item, i) => {
             return <li key={item.id}
               className={"convoListName " + ((props.activeConvo === item.id) ? 'activeConvoName' : 'notactive')}>
-                <span onClick={setActiveConvo} datakey={item.id}>{item.name}</span>
-                <button type="button" onClick={e => deleteConvoFromStorage(item.id)} title="delete this conversation">&times;</button>
+                <span class="convoListValue cursor-pointer" onClick={setActiveConvo} datakey={item.id}>{item.name}</span>
+
+                <button type="button" onClick={e => deleteConvoFromStorage(item.id)} title="delete this conversation" class="btn-link">&times;</button>
               </li>
           })
           }
         </ul>
       }
 
-      <p>
-        {!makingConvo && <button onClick={promptNewConversation} type="button">create conversation</button>}
+      <div class="list-controls">
+        {!makingConvo && <>
+          <button onClick={promptNewConversation} type="button" class="btn-default grow">create conversation</button>
+        </>}
 
-        {makingConvo && <span>
-          <input type="text" onInput={updateConvoName} />
-          <button onClick={createNewConvo} type="button">make</button>
-          <button onClick={cancelNewConvo} type="button">cancel</button>
-        </span>}
-      </p>
+        {makingConvo && <>
+          <label class="text-form-piece grow">
+            <span class="text-label">name the conversation</span>
+            <input type="text" onInput={updateConvoName} class="text-input new-convo-input" />
+          </label>
+          <button onClick={createNewConvo} type="button" class="btn-action mr-2 grow">make</button>
+          <button onClick={cancelNewConvo} type="button" class="btn-cancel">cancel</button>
+        </>}
+      </div>
     </div>
   )
 }

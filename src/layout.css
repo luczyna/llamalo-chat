@@ -1,0 +1,42 @@
+@import "tailwindcss";
+
+#root {
+  height: 100vh;
+}
+
+.navigation-header {
+  height: 90px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: baseline;
+  /* padding: 20px 20px 5px; */
+}
+
+.maincontent {
+  height: calc(100vh - 90px);
+  /* background: green; */
+  display: flex;
+}
+
+.conversation-list {
+  width: 300px;
+  display: flex;
+  flex-flow: column;
+  flex-shrink: 0;
+}
+
+.conversation-container {
+  display: flex;
+  overflow-y: auto;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.messages-wrapper {
+  flex-grow: 1;
+  overflow-y: scroll;
+}
+
+.message-composer-wrapper {
+  height: 200px;
+}
