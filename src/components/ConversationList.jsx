@@ -72,7 +72,7 @@ function ConversationList(props) {
 
       <div class="list-controls">
         {!makingConvo && <>
-          <button onClick={promptNewConversation} type="button" class="btn-default grow">create conversation</button>
+          <button onClick={promptNewConversation} type="button" class="btnb btn-default grow">create conversation</button>
         </>}
 
         {makingConvo && <>
@@ -80,8 +80,8 @@ function ConversationList(props) {
             <span class="text-label">name the conversation</span>
             <input type="text" onInput={updateConvoName} class="text-input new-convo-input" />
           </label>
-          <button onClick={createNewConvo} type="button" class="btn-action mr-2 grow">make</button>
-          <button onClick={cancelNewConvo} type="button" class="btn-cancel">cancel</button>
+          <button onClick={createNewConvo} type="button" class="btnb btn-action mr-2 grow">make</button>
+          <button onClick={cancelNewConvo} type="button" class="btnb btn-cancel">cancel</button>
         </>}
       </div>
     </div>

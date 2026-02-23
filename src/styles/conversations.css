@@ -66,12 +66,14 @@
     p-2
     mr-2
     rounded-lg
-    bg-mist-50
+    bg-mist-100
     grow
     border-2
     border-mist-300
+    hover:bg-mist-50
     focus:border-cyan-200
-    focus:outline-0
+    focus:outline-cyan-600
+    focus:outline-offset-1
     focus:bg-white
     transition-colors
     duration-150;

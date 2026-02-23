@@ -4,9 +4,6 @@
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-
-  /* color-scheme: light dark; */
-  /* color: rgba(255, 255, 255, 1); */
   background-color: #242424;
 
   font-synthesis: none;
@@ -15,94 +12,63 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-
-a:hover {
-  color: #535bf2;
-} */
-
 body {
   margin: 0;
 }
 
-/* button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
-} */
-
-.btn-default {
+.btnb {
   @apply
-    /* text-sm */
     p-2
-    bg-green-400
-    border-2
     rounded-md
-    border-green-500
+    border-2
     text-base
     cursor-pointer
     transition-colors
-    duration-150
-    hover:border-green-500
-    hover:bg-green-300;
-  outline: none;
+    duration-150;
+  outline: 0;
+}
+
+.btn-default {
+  @apply
+    bg-teal-100
+    border-teal-400
+    hover:border-teal-600
+    hover:bg-teal-50
+    focus:border-teal-600
+    focus:bg-teal-50
+    focus:outline-teal-500
+    focus:outline-2;
 }
 
 .btn-action {
   @apply
-    p-2
     bg-green-300
-    border-2
-    rounded-md
     border-green-600
-    cursor-pointer;
+    hover:border-green-800
+    hover:bg-green-100
+    focus:border-green-800
+    focus:bg-green-100
+    focus:outline-green-500
+    focus:outline-2;
 }
 
 .btn-cancel {
   @apply
-    p-2
     bg-red-300
     border-2
-    rounded-md
     border-red-400
-    cursor-pointer;
+    hover:border-red-500
+    hover:bg-red-200
+    focus:border-red-600
+    focus:bg-red-200
+    focus:outline-red-500
+    focus:outline-2
 }
 
 .btn-link {
-  background: transparent;
-  /* outline: 0; */
-  padding: 0;
   @apply
+    p-0
+    bg-transparent
     text-xs
     border-none
     rounded-full
@@ -124,7 +90,11 @@ button:focus-visible {
     rounded-md
     border-gray-300
     hover:border-green-300
-    focus:border-cyan-300;
+    focus:border-cyan-300
+    focus:outline-cyan-500
+    focus:outline-2
+    focus:outline-offset-1;
+
 }
 
 .text-label {
@@ -134,5 +104,3 @@ button:focus-visible {
     italic;
 
 }
-
-#root { background: tomato; }
