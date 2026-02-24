@@ -27,19 +27,23 @@
     bg-gray-50
     border-2
     border-slate-200
-    mb-3;
+    mb-3
+    transition-colors
+    duration-50;
 }
 
 
 .messagetype-user {
   @apply
     ml-15
-    bg-gray-100;
+    bg-slate-100
+    hover:bg-slate-50;
 }
 
 .messagetype-assistant {
   @apply
-    mr-15;
+    mr-15
+    hover:bg-white;
 }
 
 .message-wrapper header {
@@ -65,17 +69,52 @@
 .message-body ul {
   list-style: initial;
   margin-left: 30px;
-  @apply
-    mt-1
-    mb-2;
 }
 
 .message-body ol {
   list-style: decimal;
   margin-left: 30px;
+}
+
+.message-body p,
+.message-body ol,
+.message-body ul {
   @apply
     mt-1
     mb-2;
+}
+
+.message-body pre {
+  text-wrap: wrap;
+}
+
+.waiting-on-assistant {
+  @apply
+    flex
+}
+
+.waiting-on-assistant.navigation-edition .assist-ellipse-dot {
+  @apply
+    bg-green-500
+}
+
+.assist-ellipse-dot {
+  @apply
+    size-2
+    bg-mist-400
+    rounded-full
+    mr-2
+    animate-bounce
+}
+
+.assist-ellipse-dot.dot-1 {
+  animation-delay: 0s;
+}
+.assist-ellipse-dot.dot-2 {
+  animation-delay: 0.75s;
+}
+.assist-ellipse-dot.dot-3 {
+  animation-delay: 1.5s;
 }
 
 .composer-area {

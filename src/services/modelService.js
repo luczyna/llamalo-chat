@@ -26,7 +26,8 @@ export function AssistantMessage(convoId, modelname) {
     model: modelname,
     role: 'assistant',
     content: '',
-    createdAt: new Date().toISOString()
+    createdAt: new Date().toISOString(),
+    activeResponse: true
   }
 }
 

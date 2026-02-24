@@ -63,3 +63,11 @@ export function updateConvAssistantSays(messageId, convoId, message, conversatio
 
   localStorage.setItem('llamaTexts', JSON.stringify(conversations));
 }
+
+export function updateConvAssistantActive(messageId, convoId, isActive, conversations) {
+  const convo = conversations.find( c => c.id === convoId );
+  const streamingMessage = convo.messages.find(m => m.id === messageId);
+  streamingMessage.activeResponse = isActive;
+
+  localStorage.setItem('llamaTexts', JSON.stringify(conversations));
+}

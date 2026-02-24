@@ -59,5 +59,7 @@
 .app-connection-status {
   @apply
     px-2
+    flex
+    items-baseline
     ml-auto
 }

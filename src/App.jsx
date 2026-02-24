@@ -110,6 +110,7 @@ function App() {
         conversationMessagesWrapper.current.removeEventListener('wheel', userGeneratedScroll, true);
       }
 
+      sts.updateConvAssistantActive(messageId, activeConvo, false, convolist);
       // console.log('i am finishededed');
     }
   }

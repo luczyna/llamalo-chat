@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { connectionStatusLabels } from '../services/connectionService.js';
 import SettingsIcon from './SettingsIcon.jsx'
+import NavigationWorkingIndicator from './NavigationWorkingIndicator.jsx';
 
 function NavigationHeader(props) {
   const ctxStatus = connectionStatusLabels[props.ctx];
@@ -14,7 +15,10 @@ function NavigationHeader(props) {
 
       {props.activeConvo.length > 0 && <h2 class="convo-nav-name">{props.list.find(c => c.id === props.activeConvo ).name}</h2>}
 
-      <p class="app-connection-status">connection: {ctxStatus}</p>
+      <div class="app-connection-status">
+        {(props.ctx === 0) && <NavigationWorkingIndicator />}
+        <p>connection: {ctxStatus}</p>
+      </div>
     </nav>
   )
 }

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import MarkdownView from 'react-showdown';
+import AssistantMessageLoading from './AssistantMessageLoading.jsx';
 
 // ConversationLog props
 // {
@@ -41,6 +42,7 @@ function ConversationLog(props) {
             <span>{[day, time].join(', ')}</span>
           </header>
           <div class="message-body">
+            {(message.role === 'assistant' && message.activeResponse && !message.content.length) && <AssistantMessageLoading />}
             <MarkdownView markdown={message.content} options={markdownOptions} />
           </div>
           <footer>
