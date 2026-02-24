@@ -61,6 +61,23 @@
     text-slate-600
 }
 
+/* OMG */
+.message-body ul {
+  list-style: initial;
+  margin-left: 30px;
+  @apply
+    mt-1
+    mb-2;
+}
+
+.message-body ol {
+  list-style: decimal;
+  margin-left: 30px;
+  @apply
+    mt-1
+    mb-2;
+}
+
 .composer-area {
   @apply
     p-2

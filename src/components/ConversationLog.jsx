@@ -1,12 +1,17 @@
 import { useState } from 'react';
+import MarkdownView from 'react-showdown';
 
 // ConversationLog props
 // {
 //   activeConvo: id of the active conversation
 //   convoData: data on the convo
+//   wrapperRef: ref data to assign to the wrapper to enable scrolling updates
 // }
 function ConversationLog(props) {
-  // console.log(props.convoData)
+  // instead of <pre class="fancycontent">{message.content}</pre>
+  const markdownOptions = {
+    simpleLineBreaks: true
+  }
 
   if (props.convoData == undefined) {
     return (
@@ -29,14 +34,14 @@ function ConversationLog(props) {
 
         const classnames = ['message-wrapper']
         classnames.push((message.role === 'user') ? 'messagetype-user' : 'messagetype-assistant');
-        
+
         return <div className={classnames.join(' ')} key={message.id}>
           <header>
             <span>{message.role}</span>
             <span>{[day, time].join(', ')}</span>
           </header>
           <div class="message-body">
-            <p>{message.content}</p>
+            <MarkdownView markdown={message.content} options={markdownOptions} />
           </div>
           <footer>
           </footer>
@@ -44,7 +49,7 @@ function ConversationLog(props) {
       });
 
       return (
-        <div class="messages-wrapper">
+        <div class="messages-wrapper" ref={props.wrapperRef}>
           {messages}
         </div>
       )
