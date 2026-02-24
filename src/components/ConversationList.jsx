@@ -10,6 +10,7 @@ import ConversationMaker from './ConversationMaker.jsx';
 //   activeConvo: current conversation
 //   updateConvoList: setState for convolist
 //   updateActiveConvo: setState for active convo
+//   scrollToConvoListBottom: as it says
 // }
 function ConversationList(props) {
   const [makingConvo, setConvoMakingToggle] = useState(false);
@@ -42,6 +43,9 @@ function ConversationList(props) {
   function setActiveConvo(event) {
     const id = event.target.getAttribute('datakey');
     props.updateActiveConvo(id);
+    window.setTimeout(() => {
+      props.scrollToConversationListBottom();
+    }, 150);
   }
 
   function deleteConvoFromStorage(convoId) {

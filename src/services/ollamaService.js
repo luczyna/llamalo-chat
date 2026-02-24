@@ -16,6 +16,8 @@ export async function getOllamaModels(OLLAMA_URL) {
 }
 
 export async function getOllamaResponse(OLLAMA_URL, model, conversation, updateStreamingMessage, finishedFunc) {
+  let foundError = false;
+
   try {
     const url = `${OLLAMA_URL}/api/chat`;
     const convoId = conversation.id;
@@ -56,13 +58,15 @@ export async function getOllamaResponse(OLLAMA_URL, model, conversation, updateS
           }
         } catch (e) {
           console.warn('Failed to parse line:', line);
+          foundError = true;
         }
       }
     }
   } catch (e) {
     console.error('Error in chat request:', e);
     throw new Error('Error in chat request');
+    foundError = true;
   } finally {
-    finishedFunc();
+    finishedFunc(foundError);
   }
 }

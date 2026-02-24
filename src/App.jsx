@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import NavigationHeader from './components/NavigationHeader.jsx'
 import ConversationList from './components/ConversationList.jsx'
 import ConversationLog from './components/ConversationLog.jsx'
@@ -13,6 +13,8 @@ function App() {
   const [modellist, updateModellist] = useState([]);
   const [activeModel, updateActiveModel] = useState('');
   const [activeConvo, updateActiveConvo] = useState('');
+
+  const conversationMessagesWrapper = useRef(null);
 
   const OLLAMA_URL = localStorage.getItem("ollamaUrl") || "http://127.0.0.1:11434";
 
@@ -57,6 +59,10 @@ function App() {
   function converseWithOllama() {
     // show the user message
     checkConversations();
+    // update the status of the connection to Ollama
+    updateConnection(0);
+    // scroll to the user message
+    scrollToConversationListBottom();
 
     // create the assistant message in LocalStorage
     // save the response to the assistant message
@@ -69,13 +75,27 @@ function App() {
       sts.updateConvAssistantSays(messageId, activeConvo, accumulatedMessage, convolist);
 
       checkConversations();
+      scrollToConversationListBottom();
     }
 
-    function finishingTouches() {
+    function finishingTouches(hasError) {
+      if (hasError) {
+        updateConnection(2);
+      } else {
+        updateConnection(1);
+      }
+
       console.log('i am finishededed');
     }
 
     ols.getOllamaResponse(OLLAMA_URL, activeModel, conversation, updateStreamingMessage, finishingTouches);
+  }
+
+  function scrollToConversationListBottom() {
+    conversationMessagesWrapper.current.lastChild.scrollIntoView({
+      behavior: 'smooth',
+      block: 'end'
+    });
   }
 
 
@@ -91,12 +111,14 @@ function App() {
           model={activeModel}
           activeConvo={activeConvo}
           updateConvoList={updateConvolist}
-          updateActiveConvo={updateActiveConvo} />
+          updateActiveConvo={updateActiveConvo}
+          scrollToConversationListBottom={scrollToConversationListBottom} />
 
         <div class="conversation-container">
           <ConversationLog
             activeConvo={activeConvo}
-            convoData={convolist.find( c => c.id === activeConvo )} />
+            convoData={convolist.find( c => c.id === activeConvo )}
+            wrapperRef={conversationMessagesWrapper} />
           <ConversateForm
             ready={connectionStatus === 1}
             list={convolist}
