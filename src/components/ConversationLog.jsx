@@ -15,14 +15,14 @@ function ConversationLog(props) {
 
   if (props.convoData == undefined) {
     return (
-      <div class="messages-wrapper">
+      <div class="messages-wrapper" ref={props.wrapperRef}>
         <p>choose a convo</p>
       </div>
     )
   } else {
     if (!props.convoData.messages.length) {
       return (
-        <div class="messages-wrapper">
+        <div class="messages-wrapper" ref={props.wrapperRef}>
           <p>no messages...</p>
         </div>
       )

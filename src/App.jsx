@@ -62,20 +62,41 @@ function App() {
     // update the status of the connection to Ollama
     updateConnection(0);
     // scroll to the user message
-    scrollToConversationListBottom();
+    // scrollToConversationListBottom();
+    window.setTimeout(() => {
+      scrollToConversationListBottom();
+    }, 250);
+
+    // we start watching the user scroll
+    // if they do while the bot is working, then we do not upset their behavior
+    // https://developer.mozilla.org/en-US/docs/Web/API/Element/wheel_event
+    let disturbAutoScrolling = false;
+    let watchingUserScroll = true;
+    conversationMessagesWrapper.current.addEventListener('wheel', userGeneratedScroll, true);
 
     // create the assistant message in LocalStorage
     // save the response to the assistant message
     // send the prompt to Ollama
-
     const conversation = convolist.find(c => c.id === activeConvo);
     const messageId = sts.startConvAssistantSays(activeConvo, activeModel, '', convolist);
+    checkConversations();
+    ols.getOllamaResponse(OLLAMA_URL, activeModel, conversation, updateStreamingMessage, finishingTouches);
+
+    function userGeneratedScroll() {
+      disturbAutoScrolling = true;
+    }
 
     function updateStreamingMessage(accumulatedMessage) {
       sts.updateConvAssistantSays(messageId, activeConvo, accumulatedMessage, convolist);
 
       checkConversations();
-      scrollToConversationListBottom();
+
+      if (!disturbAutoScrolling) {
+        scrollToConversationListBottom();
+      } else if (watchingUserScroll && disturbAutoScrolling) {
+        conversationMessagesWrapper.current.removeEventListener('wheel', userGeneratedScroll, true);
+        watchingUserScroll = false;
+      }
     }
 
     function finishingTouches(hasError) {
@@ -85,10 +106,12 @@ function App() {
         updateConnection(1);
       }
 
-      console.log('i am finishededed');
-    }
+      if (watchingUserScroll) {
+        conversationMessagesWrapper.current.removeEventListener('wheel', userGeneratedScroll, true);
+      }
 
-    ols.getOllamaResponse(OLLAMA_URL, activeModel, conversation, updateStreamingMessage, finishingTouches);
+      // console.log('i am finishededed');
+    }
   }
 
   function scrollToConversationListBottom() {
