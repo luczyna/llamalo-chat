@@ -1,5 +1,7 @@
 import { useState } from 'react';
-import * as sts from '../services/storageService.js'
+import * as sts from '../services/storageService.js';
+
+import ConversationMaker from './ConversationMaker.jsx';
 
 // ConversationList props
 // {
@@ -75,14 +77,7 @@ function ConversationList(props) {
           <button onClick={promptNewConversation} type="button" class="btnb btn-default grow">create conversation</button>
         </>}
 
-        {makingConvo && <>
-          <label class="text-form-piece grow">
-            <span class="text-label">name the conversation</span>
-            <input type="text" onInput={updateConvoName} class="text-input new-convo-input" />
-          </label>
-          <button onClick={createNewConvo} type="button" class="btnb btn-action mr-2 grow">make</button>
-          <button onClick={cancelNewConvo} type="button" class="btnb btn-cancel">cancel</button>
-        </>}
+        {makingConvo && <ConversationMaker update={setConvoName} create={createNewConvo} cancel={cancelNewConvo} />}
       </div>
     </div>
   )
