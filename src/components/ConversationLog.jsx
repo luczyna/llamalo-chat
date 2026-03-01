@@ -52,7 +52,9 @@ function ConversationLog(props) {
 
       return (
         <div class="messages-wrapper" ref={props.wrapperRef}>
-          {messages}
+          <div class="wrapper-center">
+            {messages}
+          </div>
         </div>
       )
     }

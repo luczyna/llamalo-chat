@@ -39,11 +39,13 @@ function ConversateForm(props) {
 
   return (
     <div class="message-composer-wrapper">
-      <textarea class="composer-area" value={message} onChange={captureMessage} />
+      <div class="wrapper-center">
+        <textarea class="composer-area" value={message} onChange={captureMessage} />
 
-      <div class="composer-controls">
-        <button type="button" onClick={sendConvoMessage} disabled={disabled} class="btnb btn-action grow mt-2">send</button>
-        <button type="button" onClick={hextras} class="btnb btn-default">adjust</button>
+        <div class="composer-controls">
+          <button type="button" onClick={sendConvoMessage} disabled={disabled} class="btnb btn-action grow mt-2">send</button>
+          <button type="button" onClick={hextras} class="btnb btn-default">adjust</button>
+        </div>
       </div>
     </div>
   )
