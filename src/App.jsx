@@ -123,20 +123,30 @@ function App() {
     });
   }
 
+  function onConversationChange(newconvoId) {
+    const convoData = convolist.find(c => c.id === newconvoId);
+
+    updateActiveConvo(newconvoId)
+    updateActiveModel(convoData.model)
+  }
+
 
   return (
     <>
       <NavigationHeader
         ctx={connectionStatus}
         list={convolist}
-        activeConvo={activeConvo} />
+        activeConvo={activeConvo}
+        activeModel={activeModel}
+        modellist={modellist}
+        updateActiveModel={updateActiveModel} />
       <main class="maincontent">
         <ConversationList
           list={convolist}
           model={activeModel}
           activeConvo={activeConvo}
           updateConvoList={updateConvolist}
-          updateActiveConvo={updateActiveConvo}
+          updateActiveConvo={onConversationChange}
           scrollToConversationListBottom={scrollToConversationListBottom}
           ctx={connectionStatus} />
 

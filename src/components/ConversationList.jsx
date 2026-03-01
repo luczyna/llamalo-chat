@@ -9,7 +9,7 @@ import ConversationMaker from './ConversationMaker.jsx';
 //   model: current model
 //   activeConvo: current conversation
 //   updateConvoList: setState for convolist
-//   updateActiveConvo: setState for active convo
+//   updateActiveConvo: wrapper for setState for active convo
 //   scrollToConvoListBottom: as it says
 //   ctx: status of connection to Ollama
 // }

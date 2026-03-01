@@ -28,6 +28,7 @@
   overflow-y: auto;
   flex-direction: column;
   flex-grow: 1;
+  position: relative;
 }
 
 .messages-wrapper {

@@ -13,7 +13,8 @@ import * as sts from '../services/storageService.js';
 function ConversateForm(props) {
   const [message, setMessage] = useState('');
   const [submittable, setSubmittable] = useState(false);
-  const [overrideDefaultModel, setOverrideDefaultModel] = useState(false);
+  const [showPromptSettings, setShowPromptSettings] = useState(false);
+  const [overrideDefaultModel, setOverrideDefaultModel] = useState(null);
 
   function captureMessage(event) {
     const value = event.target.value;
@@ -28,17 +29,24 @@ function ConversateForm(props) {
   }
 
   function sendConvoMessage() {
-    sts.updateConvUserSays(props.activeConvo, props.model, message, props.list);
+    const model = (overrideDefaultModel) ? overrideDefaultModel : props.model;
+
+    sts.updateConvUserSays(props.activeConvo, model, message, props.list);
     setMessage('');
     props.requestOllamaResponse();
   }
 
-  function hextras() {
-    // placeholder for whats to come
+  function togglePromptSettings() {
+    setShowPromptSettings(!showPromptSettings);
   }
 
+  function hidePromptSettings() {
+    setShowPromptSettings(false);
+  }
+
+
+
   const disabled = !submittable || !props.activeConvo.length || !props.ready;
-  const doShowSettings = true;
 
   return (
     <div class="message-composer-wrapper">
@@ -47,23 +55,27 @@ function ConversateForm(props) {
 
         <div class="composer-controls">
           <button type="button" onClick={sendConvoMessage} disabled={disabled} class="btnb btn-action grow mt-2">send</button>
-          <button type="button" onClick={hextras} class="btnb btn-default">adjust</button>
+          <button type="button" onClick={togglePromptSettings} class="btnb btn-default">adjust</button>
         </div>
       </div>
 
-      {doShowSettings && <div class="message-settings-windowbox">
-          <label title="override the conversation model default">
-            <span>choose model for this prompt</span>
-            <select>
-              <option>
-              </option></select>
-          </label>
-
-          <footer class="windowbox-controls">
-            <button class="btn-link" title="close parameter adjustments">&times;</button>
+      {(props.activeConvo.length > 0 && <>
+        {(showPromptSettings) && <div class="prompt-conversation-defaults">
+          <div class="defaults-wrapper">
+            <label class="text-label" title="override the conversation model default">
+              <span>choose model for this message</span>
+              <select class="select-input" onChange={e => setOverrideDefaultModel(e.target.value)} value={props.list.find(c => c.id === props.activeConvo).model}>
+                {props.modellist.map(model => {
+                  return <option value={model.name} key={model.id}>{model.name}</option>
+                })}
+              </select>
+            </label>
+          </div>
+          <footer class="defaults-footer">
+            <button type="button" class="btnb btn-cancel" onClick={hidePromptSettings}>close settings</button>
           </footer>
-        </div>
-      }
+        </div>}
+      </>)}
     </div>
   )
 }
