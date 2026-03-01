@@ -38,7 +38,7 @@ function ConversationLog(props) {
 
         return <div className={classnames.join(' ')} key={message.id}>
           <header>
-            <span>{message.role}</span>
+            <span>{message.role}{(message.role === 'assistant' && ': ' + message.model)}</span>
             <span>{[day, time].join(', ')}</span>
           </header>
           <div class="message-body">

@@ -71,3 +71,10 @@ export function updateConvAssistantActive(messageId, convoId, isActive, conversa
 
   localStorage.setItem('llamaTexts', JSON.stringify(conversations));
 }
+
+export function updateConvModel(convoId, model, conversations) {
+  const convo = conversations.find( c => c.id === convoId );
+  convo.model = model;
+
+  localStorage.setItem('llamaTexts', JSON.stringify(conversations));
+}

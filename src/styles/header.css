@@ -1,6 +1,7 @@
 @reference "../index.css";
 
 .navigation-header {
+  position: relative;
   @apply
     flex
     flex-row
@@ -62,4 +63,39 @@
     flex
     items-baseline
     ml-auto
+}
+
+.app-conversation-defaults {
+  position: fixed;
+  top: 44px;
+  left: 330px;
+}
+
+.prompt-conversation-defaults {
+  position: absolute;
+  bottom: 40px;
+  left: 40px;
+}
+
+.app-conversation-defaults,
+.prompt-conversation-defaults {
+  z-index: 10;
+  @apply
+    w-200
+    m-2
+    bg-slate-50
+    border-2
+    rounded-lg
+    border-gray-200
+}
+
+.defaults-wrapper {
+  @apply
+    p-4
+    /* w-20 */
+}
+
+.defaults-footer {
+  @apply
+    p-4
 }
