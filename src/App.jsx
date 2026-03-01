@@ -56,7 +56,8 @@ function App() {
     }
   }
 
-  function converseWithOllama() {
+  function converseWithOllama(model=activeModel) {
+    // TODO make a queue for multiple conversations
     // show the user message
     checkConversations();
     // update the status of the connection to Ollama
@@ -136,7 +137,8 @@ function App() {
           activeConvo={activeConvo}
           updateConvoList={updateConvolist}
           updateActiveConvo={updateActiveConvo}
-          scrollToConversationListBottom={scrollToConversationListBottom} />
+          scrollToConversationListBottom={scrollToConversationListBottom}
+          ctx={connectionStatus} />
 
         <div class="conversation-container">
           <ConversationLog
@@ -147,6 +149,7 @@ function App() {
             ready={connectionStatus === 1}
             list={convolist}
             model={activeModel}
+            modellist={modellist}
             activeConvo={activeConvo}
             requestOllamaResponse={converseWithOllama} />
         </div>

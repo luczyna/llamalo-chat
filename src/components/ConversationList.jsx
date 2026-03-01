@@ -11,6 +11,7 @@ import ConversationMaker from './ConversationMaker.jsx';
 //   updateConvoList: setState for convolist
 //   updateActiveConvo: setState for active convo
 //   scrollToConvoListBottom: as it says
+//   ctx: status of connection to Ollama
 // }
 function ConversationList(props) {
   const [makingConvo, setConvoMakingToggle] = useState(false);
@@ -41,6 +42,8 @@ function ConversationList(props) {
   }
 
   function setActiveConvo(event) {
+    if (props.ctx !== 1) return;
+
     const id = event.target.getAttribute('datakey');
     props.updateActiveConvo(id);
     window.setTimeout(() => {
@@ -63,7 +66,7 @@ function ConversationList(props) {
       {!props.list.length && <p>there are no conversations...</p>}
 
       {(props.list.length > 0) &&
-        <ul class="convolist-items">
+        <ul className={"convolist-items " + ((props.ctx !== 1) ? ' cursor-not-allowed' : '' )}>
           {props.list.map((item, i) => {
             return <li key={item.id}
               className={"convoListName " + ((props.activeConvo === item.id) ? 'activeConvoName' : 'notactive')}>
@@ -76,7 +79,7 @@ function ConversationList(props) {
         </ul>
       }
 
-      <div class="list-controls">
+      <div className={"list-controls" + ((props.ctx !== 1) ? ' cursor-not-allowed' : '')}>
         {!makingConvo && <>
           <button onClick={promptNewConversation} type="button" class="btnb btn-default grow">create conversation</button>
         </>}
