@@ -130,6 +130,10 @@ function App() {
     updateActiveModel(convoData.model)
   }
 
+  function removeConversationMessage(convoId, messageId) {
+    sts.removeConversationMessage(convoId, messageId, convolist);
+    checkConversations();
+  }
 
   return (
     <>
@@ -139,7 +143,8 @@ function App() {
         activeConvo={activeConvo}
         activeModel={activeModel}
         modellist={modellist}
-        updateActiveModel={updateActiveModel} />
+        updateActiveModel={updateActiveModel}
+        updateConversations={checkConversations} />
       <main class="maincontent">
         <ConversationList
           list={convolist}
@@ -154,6 +159,7 @@ function App() {
           <ConversationLog
             activeConvo={activeConvo}
             convoData={convolist.find( c => c.id === activeConvo )}
+            removeMessage={removeConversationMessage}
             wrapperRef={conversationMessagesWrapper} />
           <ConversateForm
             ready={connectionStatus === 1}

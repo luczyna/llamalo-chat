@@ -6,6 +6,7 @@ import AssistantMessageLoading from './AssistantMessageLoading.jsx';
 // {
 //   activeConvo: id of the active conversation
 //   convoData: data on the convo
+//   removeMessage: delete the message from the conversation
 //   wrapperRef: ref data to assign to the wrapper to enable scrolling updates
 // }
 function ConversationLog(props) {
@@ -41,11 +42,16 @@ function ConversationLog(props) {
             <span>{message.role}{(message.role === 'assistant' && ': ' + message.model)}</span>
             <span>{[day, time].join(', ')}</span>
           </header>
+          
           <div class="message-body">
             {(message.role === 'assistant' && message.activeResponse && !message.content.length) && <AssistantMessageLoading />}
             <MarkdownView markdown={message.content} options={markdownOptions} />
           </div>
-          <footer>
+
+          <footer class="text-gray-300 text-sm text-right mt-2 px-4 py-2 hover:text-gray-600">
+            <button class="hover:cursor-pointer hover:underline" type="button" onClick={e => {
+              props.removeMessage(props.convoData.id, message.id);
+            }}>delete</button>
           </footer>
         </div>
       });

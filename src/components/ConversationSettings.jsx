@@ -75,7 +75,7 @@ function ConversationSettings(props) {
           <span class="text-label">choose default model for this conversation</span>
           <select class="select-input" onChange={e => setCurrentConvoModel(e.target.value)} value={currentConvoModel}>
             {props.modellist.map(model => {
-              return <option value={model.name} key={model.id}>{model.name}</option>
+              return <option value={model.name} key={model.id+model.name}>{model.name}</option>
             })}
           </select>
         </label>
