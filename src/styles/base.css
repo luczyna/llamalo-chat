@@ -68,6 +68,18 @@ body {
     focus:outline-2
 }
 
+.btn-blah {
+  @apply
+    bg-slate-100
+    border-slate-300
+    hover:border-slate-600
+    hover:bg-slate-50
+    focus:border-slate-600
+    focus:bg-slate-50
+    focus:outline-slate-500
+    focus:outline-2;
+}
+
 .btn-link {
   @apply
     p-0
@@ -88,6 +100,7 @@ body {
 .text-input {
   @apply
     p-2
+    mt-2
     bg-white
     border-2
     rounded-md
