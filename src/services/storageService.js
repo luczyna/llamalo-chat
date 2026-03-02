@@ -78,3 +78,18 @@ export function updateConvModel(convoId, model, conversations) {
 
   localStorage.setItem('llamaTexts', JSON.stringify(conversations));
 }
+
+export function updateConvName(convoId, name, conversations) {
+  const convo = conversations.find( c => c.id === convoId );
+  convo.name = name;
+
+  localStorage.setItem('llamaTexts', JSON.stringify(conversations));
+}
+
+export function removeConversationMessage(convoId, messageId, conversations) {
+  const convo = conversations.findIndex( c => c.id === convoId );
+  const message = conversations[convo].messages.findIndex( m => m.id === messageId );
+  conversations[convo].messages.splice(message, 1);
+
+  localStorage.setItem('llamaTexts', JSON.stringify(conversations));
+}
