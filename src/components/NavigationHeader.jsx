@@ -29,12 +29,12 @@ function NavigationHeader(props) {
     activeConvo = props.list.find(c => c.id === props.activeConvo );
   }
 
+  // <button type="button" class="app-settings-btn" title="settings"><SettingsIcon /></button>
 
   return (
     <nav class={"navigation-header " + ((props.ctx === 2) ? 'nav-error-alert' : '') }>
       <h1 class="app-name">
         llamalo
-        <button type="button" class="app-settings-btn" title="settings"><SettingsIcon /></button>
       </h1>
 
       {props.activeConvo.length > 0 && <h2 class="convo-nav-name">{activeConvo.name}</h2>}

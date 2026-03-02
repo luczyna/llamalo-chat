@@ -18,14 +18,14 @@ function ConversationLog(props) {
   if (props.convoData == undefined) {
     return (
       <div class="messages-wrapper" ref={props.wrapperRef}>
-        <p>choose a convo</p>
+        <p class="empty-message wrapper-center">choose a conversation<br /> or<br />create a new one</p>
       </div>
     )
   } else {
     if (!props.convoData.messages.length) {
       return (
         <div class="messages-wrapper" ref={props.wrapperRef}>
-          <p>no messages...</p>
+          <p class="empty-message wrapper-center">no messages...</p>
         </div>
       )
     } else if (props.convoData.messages.length) {
@@ -42,7 +42,7 @@ function ConversationLog(props) {
             <span>{message.role}{(message.role === 'assistant' && ': ' + message.model)}</span>
             <span>{[day, time].join(', ')}</span>
           </header>
-          
+
           <div class="message-body">
             {(message.role === 'assistant' && message.activeResponse && !message.content.length) && <AssistantMessageLoading />}
             <MarkdownView markdown={message.content} options={markdownOptions} />
