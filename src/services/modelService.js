@@ -8,6 +8,27 @@ export function Conversation(convoname, modelname) {
   }
 }
 
+export function ConversationOptions(options) {
+  let base = {
+    seed: undefined,
+    temperature: undefined,
+    top_k: undefined,
+    top_p: undefined,
+    min_p: undefined,
+    stop: undefined,
+    num_ctx: undefined,
+    num_predict: undefined
+  }
+
+  Object.keys(options).forEach((option, index) => {
+    base[option] = options[option];
+  });
+
+  Object.keys(base).forEach(key => base[key] === undefined && delete base[key]);
+
+  return base;
+}
+
 export function UserMessage(convoId, modelname, message) {
   return {
     id: generateId(),

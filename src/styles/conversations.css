@@ -145,6 +145,8 @@
 }
 
 .composer-area {
+  height: 174px;
+  
   @apply
     p-2
     mr-2

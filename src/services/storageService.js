@@ -1,5 +1,6 @@
 import {
   Conversation,
+  ConversationOptions,
   UserMessage,
   AssistantMessage
 } from './modelService.js';
@@ -25,7 +26,7 @@ export function saveConversation(chatname, modelname, conversations) {
 
   conversations.push(newConversation);
 
-  localStorage.setItem('llamaTexts', JSON.stringify(conversations));
+  setLocalStorage(conversations);
   return newConversation.id;
 }
 
@@ -33,7 +34,7 @@ export function deleteConversation(convoId, conversations) {
   const convo = conversations.findIndex( c => c.id === convoId );
   conversations.splice(convo, 1);
 
-  localStorage.setItem('llamaTexts', JSON.stringify(conversations));
+  setLocalStorage(conversations);
 }
 
 export function updateConvUserSays(convoId, modelname, message, conversations) {
@@ -42,7 +43,7 @@ export function updateConvUserSays(convoId, modelname, message, conversations) {
   const convo = conversations.find( c => c.id === convoId );
   convo.messages.push(newMessage);
 
-  localStorage.setItem('llamaTexts', JSON.stringify(conversations));
+  setLocalStorage(conversations);
   return newMessage.id;
 }
 
@@ -52,7 +53,7 @@ export function startConvAssistantSays(convoId, modelname, message, conversation
   const convo = conversations.find( c => c.id === convoId );
   convo.messages.push(newMessage);
 
-  localStorage.setItem('llamaTexts', JSON.stringify(conversations));
+  setLocalStorage(conversations);
   return newMessage.id;
 }
 
@@ -61,7 +62,7 @@ export function updateConvAssistantSays(messageId, convoId, message, conversatio
   const streamingMessage = convo.messages.find(m => m.id === messageId);
   streamingMessage.content = message;
 
-  localStorage.setItem('llamaTexts', JSON.stringify(conversations));
+  setLocalStorage(conversations);
 }
 
 export function updateConvAssistantActive(messageId, convoId, isActive, conversations) {
@@ -69,21 +70,28 @@ export function updateConvAssistantActive(messageId, convoId, isActive, conversa
   const streamingMessage = convo.messages.find(m => m.id === messageId);
   streamingMessage.activeResponse = isActive;
 
-  localStorage.setItem('llamaTexts', JSON.stringify(conversations));
+  setLocalStorage(conversations);
 }
 
 export function updateConvModel(convoId, model, conversations) {
   const convo = conversations.find( c => c.id === convoId );
   convo.model = model;
 
-  localStorage.setItem('llamaTexts', JSON.stringify(conversations));
+  setLocalStorage(conversations);
 }
 
 export function updateConvName(convoId, name, conversations) {
   const convo = conversations.find( c => c.id === convoId );
   convo.name = name;
 
-  localStorage.setItem('llamaTexts', JSON.stringify(conversations));
+  setLocalStorage(conversations);
+}
+
+export function updateConvOptions(convoId, options, conversations) {
+  const convo = conversations.find( c => c.id === convoId );
+  convo.options = new ConversationOptions(options);
+
+  setLocalStorage(conversations);
 }
 
 export function removeConversationMessage(convoId, messageId, conversations) {
@@ -91,5 +99,9 @@ export function removeConversationMessage(convoId, messageId, conversations) {
   const message = conversations[convo].messages.findIndex( m => m.id === messageId );
   conversations[convo].messages.splice(message, 1);
 
+  setLocalStorage(conversations);
+}
+
+function setLocalStorage(conversations) {
   localStorage.setItem('llamaTexts', JSON.stringify(conversations));
 }

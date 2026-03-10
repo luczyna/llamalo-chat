@@ -30,6 +30,7 @@ export async function getOllamaResponse(OLLAMA_URL, model, conversation, updateS
       body: JSON.stringify({
         model: model,
         messages: conversation.messages,
+        options: conversation.options,
         stream: true
       }),
     });
