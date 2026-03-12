@@ -12,7 +12,8 @@ import AssistantMessageLoading from './AssistantMessageLoading.jsx';
 function ConversationLog(props) {
   // instead of <pre class="fancycontent">{message.content}</pre>
   const markdownOptions = {
-    simpleLineBreaks: true
+    simpleLineBreaks: true,
+    tables: true
   }
 
   if (props.convoData == undefined) {

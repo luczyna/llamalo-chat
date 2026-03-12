@@ -1,0 +1,74 @@
+@reference "../index.css";
+
+.app-conversation-defaults {
+  position: fixed;
+  top: 44px;
+  left: 330px;
+}
+
+.prompt-conversation-defaults {
+  position: absolute;
+  bottom: 40px;
+  left: 40px;
+}
+
+.app-conversation-defaults,
+.prompt-conversation-defaults {
+  z-index: 10;
+  @apply
+    w-200
+    m-2
+    bg-slate-50
+    border-2
+    rounded-lg
+    border-gray-200
+}
+
+.defaults-wrapper {
+  @apply
+    p-4
+    /* w-20 */
+}
+
+.defaults-footer {
+  @apply
+    p-4
+}
+
+.convo-options {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.convo-options .text-form-piece {
+  position: relative;
+  width: 48.5%;
+  @apply
+    mb-4;
+}
+
+.convo-options .text-label {
+  display: block;
+}
+
+.prompt-desc-helper {
+  position: absolute;
+  top: -40px;
+  left: -60px;
+  display: none;
+
+  @apply
+    p-4
+    text-xs
+    text-slate-500
+    bg-slate-50
+    border-2
+    border-slate-300
+    rounded-lg
+}
+
+.convo-options .text-form-piece:hover .prompt-desc-helper {
+  display: block;
+}

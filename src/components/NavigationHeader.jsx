@@ -16,6 +16,10 @@ function NavigationHeader(props) {
   const [showConvoSettings, setShowConvoSettings] = useState(false)
   const ctxStatus = connectionStatusLabels[props.ctx];
 
+  function toggleConvoSettings() {
+    setShowConvoSettings(!showConvoSettings);
+  }
+
   function openConvoSettings() {
     setShowConvoSettings(true);
   }
@@ -38,7 +42,7 @@ function NavigationHeader(props) {
       </h1>
 
       {props.activeConvo.length > 0 && <h2 class="convo-nav-name">{activeConvo.name}</h2>}
-      {props.activeConvo.length > 0 && <button class="convo-nav-settings btn btn-link" onClick={openConvoSettings}>settings</button>}
+      {props.activeConvo.length > 0 && <button class="convo-nav-settings btn btn-link" onClick={toggleConvoSettings}>settings</button>}
 
       <div class="app-connection-status">
         {(props.ctx === 0) && <NavigationWorkingIndicator />}
