@@ -1,13 +1,14 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { connectionStatusLabels } from '../services/connectionService.js';
 import SettingsIcon from './SettingsIcon.jsx'
 import NavigationWorkingIndicator from './NavigationWorkingIndicator.jsx';
 import ConversationSettings from './ConversationSettings.jsx';
 import * as sts from '../services/storageService.js';
+import { ConvolistContext, ActiveConvoContext } from '../context/ConversationContext.js';
 
 // ctx={connectionStatus}
-// list={convolist}
-// activeConvo={activeConvo}
+// *** list={convolist}
+// *** activeConvo={activeConvo}
 // activeModel
 // modellist
 // updateActiveModel
@@ -15,6 +16,14 @@ import * as sts from '../services/storageService.js';
 function NavigationHeader(props) {
   const [showConvoSettings, setShowConvoSettings] = useState(false)
   const ctxStatus = connectionStatusLabels[props.ctx];
+  const list = useContext(ConvolistContext);
+  const activeConvoId = useContext(ActiveConvoContext);
+  const activeConvo = list.find(l => l.id === activeConvoId);
+
+  // let activeConvo = null;
+  // if (props.activeConvo) {
+  //   activeConvo = props.list.find(c => c.id === props.activeConvo );
+  // }
 
   function toggleConvoSettings() {
     setShowConvoSettings(!showConvoSettings);
@@ -28,11 +37,6 @@ function NavigationHeader(props) {
     setShowConvoSettings(false);
   }
 
-  let activeConvo = null;
-  if (props.activeConvo) {
-    activeConvo = props.list.find(c => c.id === props.activeConvo );
-  }
-
   // <button type="button" class="app-settings-btn" title="settings"><SettingsIcon /></button>
 
   return (
@@ -41,8 +45,10 @@ function NavigationHeader(props) {
         llamalo
       </h1>
 
-      {props.activeConvo.length > 0 && <h2 class="convo-nav-name">{activeConvo.name}</h2>}
-      {props.activeConvo.length > 0 && <button class="convo-nav-settings btn btn-link" onClick={toggleConvoSettings}>settings</button>}
+      {activeConvo != undefined && <>
+        <h2 class="convo-nav-name">{activeConvo.name}</h2>
+        <button class="convo-nav-settings btn btn-link" onClick={toggleConvoSettings}>settings</button>
+      </>}
 
       <div class="app-connection-status">
         {(props.ctx === 0) && <NavigationWorkingIndicator />}
@@ -50,10 +56,10 @@ function NavigationHeader(props) {
       </div>
 
       {showConvoSettings && <ConversationSettings
-        list={props.list}
         model={props.model}
         modellist={props.modellist}
-        convo={props.activeConvo}
+        // list={props.list}
+        // convo={props.activeConvo}
         updateActiveModel={props.updateActiveModel}
         updateConversations={props.updateConversations}
         closeSettings={hideConvoSettings} />}

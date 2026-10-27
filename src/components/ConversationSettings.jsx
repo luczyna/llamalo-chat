@@ -1,8 +1,10 @@
-import { useState,useEffect } from 'react';
-import * as sts from '../services/storageService.js'
+import { useState, useEffect, useContext } from 'react';
+import * as sts from '../services/storageService.js';
+import { ConvolistContext, ActiveConvoContext } from '../context/ConversationContext.js';
 
-// list={convolist}
-// convo={activeConvo}
+
+// *** list={convolist}
+// *** convo={activeConvo}
 // model={activeModel}
 // modellist
 // updateActiveModel
@@ -10,7 +12,10 @@ import * as sts from '../services/storageService.js'
 // closeSettings
 
 function ConversationSettings(props) {
-  const activeConvo = props.list.find(c => c.id === props.convo);
+  const list = useContext(ConvolistContext);
+  // const activeConvo = props.list.find(c => c.id === props.convo);
+  const activeConvoId = useContext(ActiveConvoContext);
+  const activeConvo = list.find(l => l.id === activeConvoId);
   const defaultName = activeConvo.name;
   const defaultModel = activeConvo.model;
   let defaultOptions = {
@@ -33,7 +38,7 @@ function ConversationSettings(props) {
   
   const [currentConvoName, setCurrentConvoName] = useState(defaultName);
   const [currentConvoModel, setCurrentConvoModel] = useState(defaultModel);
-  const [currentConvoinSettings, setCurrentConvoinSettings] = useState(props.convo);
+  const [currentConvoinSettings, setCurrentConvoinSettings] = useState(activeConvo);
 
   const [convoTemp, setConvoTemp] = useState(defaultOptions.temperature);
   const [convoTopP, setConvoTopP] = useState(defaultOptions.top_k);
@@ -43,7 +48,7 @@ function ConversationSettings(props) {
   const [convoSeed, setConvoSeed] = useState(defaultOptions.seed);
 
   useEffect(() => {
-    const isCorrectSetting = props.convo === currentConvoinSettings;
+    const isCorrectSetting = activeConvo === currentConvoinSettings;
 
     if (!isCorrectSetting) {
       props.closeSettings(true);
@@ -60,12 +65,12 @@ function ConversationSettings(props) {
       // let promptUpdates = false;
 
       if (currentConvoName !== activeConvo.name) {
-        sts.updateConvName(props.convo, currentConvoName, props.list);
+        sts.updateConvName(activeConvoId, currentConvoName, list);
         madeUpdates = true;
       }
 
       if (currentConvoModel !== activeConvo.model) {
-        sts.updateConvModel(props.convo, currentConvoModel, props.list);
+        sts.updateConvModel(activeConvoId, currentConvoModel, list);
         props.updateActiveModel(currentConvoModel);
         madeUpdates = true;
       }
@@ -79,7 +84,7 @@ function ConversationSettings(props) {
       if (convoSeed !== undefined) promptOptions.seed = parseInt(convoSeed);
 
       if (promptOptions !== activeConvo.options) {
-        sts.updateConvOptions(props.convo, promptOptions, props.list);
+        sts.updateConvOptions(activeConvoId, promptOptions, list);
         madeUpdates = true;
       }
 
