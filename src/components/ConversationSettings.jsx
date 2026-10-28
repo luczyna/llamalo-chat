@@ -2,9 +2,6 @@ import { useState, useEffect, useContext } from 'react';
 import * as sts from '../services/storageService.js';
 import { ConvolistContext, ActiveConvoContext } from '../context/ConversationContext.js';
 
-
-// *** list={convolist}
-// *** convo={activeConvo}
 // model={activeModel}
 // modellist
 // updateActiveModel
@@ -13,7 +10,6 @@ import { ConvolistContext, ActiveConvoContext } from '../context/ConversationCon
 
 function ConversationSettings(props) {
   const list = useContext(ConvolistContext);
-  // const activeConvo = props.list.find(c => c.id === props.convo);
   const activeConvoId = useContext(ActiveConvoContext);
   const activeConvo = list.find(l => l.id === activeConvoId);
   const defaultName = activeConvo.name;

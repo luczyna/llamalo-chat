@@ -142,8 +142,6 @@ function App() {
         <ActiveConvoContext value={activeConvo}>
           <NavigationHeader
             ctx={connectionStatus}
-            // list={convolist}
-            // activeConvo={activeConvo}
             activeModel={activeModel}
             modellist={modellist}
             updateActiveModel={updateActiveModel}

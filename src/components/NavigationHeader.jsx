@@ -7,8 +7,6 @@ import * as sts from '../services/storageService.js';
 import { ConvolistContext, ActiveConvoContext } from '../context/ConversationContext.js';
 
 // ctx={connectionStatus}
-// *** list={convolist}
-// *** activeConvo={activeConvo}
 // activeModel
 // modellist
 // updateActiveModel
@@ -19,11 +17,6 @@ function NavigationHeader(props) {
   const list = useContext(ConvolistContext);
   const activeConvoId = useContext(ActiveConvoContext);
   const activeConvo = list.find(l => l.id === activeConvoId);
-
-  // let activeConvo = null;
-  // if (props.activeConvo) {
-  //   activeConvo = props.list.find(c => c.id === props.activeConvo );
-  // }
 
   function toggleConvoSettings() {
     setShowConvoSettings(!showConvoSettings);
@@ -58,8 +51,6 @@ function NavigationHeader(props) {
       {showConvoSettings && <ConversationSettings
         model={props.model}
         modellist={props.modellist}
-        // list={props.list}
-        // convo={props.activeConvo}
         updateActiveModel={props.updateActiveModel}
         updateConversations={props.updateConversations}
         closeSettings={hideConvoSettings} />}
