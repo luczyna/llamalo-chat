@@ -1,36 +1,38 @@
-import { useState } from 'react';
+import { useContext } from 'react';
 import MarkdownView from 'react-showdown';
 import AssistantMessageLoading from './AssistantMessageLoading.jsx';
+import { ConversationContext } from '../context/ConversationContext.js';
 
 // ConversationLog props
 // {
-//   activeConvo: id of the active conversation
-//   convoData: data on the convo
 //   removeMessage: delete the message from the conversation
 //   wrapperRef: ref data to assign to the wrapper to enable scrolling updates
 // }
 function ConversationLog(props) {
+  const {convolist: list, activeConvoId} = useContext(ConversationContext);
+  const activeConvo = list.find(l => l.id === activeConvoId);
+
   // instead of <pre class="fancycontent">{message.content}</pre>
   const markdownOptions = {
     simpleLineBreaks: true,
     tables: true
   }
 
-  if (props.convoData == undefined) {
+  if (activeConvo == undefined) {
     return (
       <div class="messages-wrapper" ref={props.wrapperRef}>
         <p class="empty-message wrapper-center">choose a conversation<br /> or<br />create a new one</p>
       </div>
     )
   } else {
-    if (!props.convoData.messages.length) {
+    if (!activeConvo.messages.length) {
       return (
         <div class="messages-wrapper" ref={props.wrapperRef}>
           <p class="empty-message wrapper-center">no messages...</p>
         </div>
       )
-    } else if (props.convoData.messages.length) {
-      const messages = props.convoData.messages.map((message, i) => {
+    } else if (activeConvo.messages.length) {
+      const messages = activeConvo.messages.map((message, i) => {
         const postdate = new Date(message.createdAt);
         const day = postdate.toLocaleDateString(navigator.language, {dateStyle: 'long'});
         const time = postdate.toLocaleTimeString(navigator.language, {timeStyle: 'short'});
@@ -51,7 +53,7 @@ function ConversationLog(props) {
 
           <footer class="text-gray-300 text-sm text-right mt-2 px-4 py-2 hover:text-gray-600">
             <button class="hover:cursor-pointer hover:underline" type="button" onClick={e => {
-              props.removeMessage(props.convoData.id, message.id);
+              props.removeMessage(activeConvo.id, message.id);
             }}>delete</button>
           </footer>
         </div>

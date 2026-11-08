@@ -1,17 +1,15 @@
 import { useState, useEffect, useContext } from 'react';
 import * as sts from '../services/storageService.js';
-import { ConvolistContext, ActiveConvoContext } from '../context/ConversationContext.js';
+import { ConversationContext } from '../context/ConversationContext.js';
+import { ModelContext } from '../context/ModelContext.js';
 
-// model={activeModel}
-// modellist
-// updateActiveModel
-// updateConversations
 // closeSettings
 
 function ConversationSettings(props) {
-  const list = useContext(ConvolistContext);
-  const activeConvoId = useContext(ActiveConvoContext);
+  const {convolist: list, activeConvoId} = useContext(ConversationContext);
   const activeConvo = list.find(l => l.id === activeConvoId);
+  const {model, modellist, updateActiveModel} = useContext(ModelContext);
+
   const defaultName = activeConvo.name;
   const defaultModel = activeConvo.model;
   let defaultOptions = {
@@ -67,7 +65,7 @@ function ConversationSettings(props) {
 
       if (currentConvoModel !== activeConvo.model) {
         sts.updateConvModel(activeConvoId, currentConvoModel, list);
-        props.updateActiveModel(currentConvoModel);
+        updateActiveModel(currentConvoModel);
         madeUpdates = true;
       }
 
@@ -113,7 +111,7 @@ function ConversationSettings(props) {
         <label class="text-label" title="override the conversation model default">
           <span class="text-label">choose default model for this conversation</span>
           <select class="select-input" onChange={e => setCurrentConvoModel(e.target.value)} value={currentConvoModel}>
-            {props.modellist.map(model => {
+            {modellist.map(model => {
               return <option value={model.name} key={model.id+model.name}>{model.name}</option>
             })}
           </select>

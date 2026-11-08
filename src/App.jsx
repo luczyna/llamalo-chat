@@ -3,7 +3,9 @@ import NavigationHeader from './components/NavigationHeader.jsx';
 import ConversationList from './components/ConversationList.jsx';
 import ConversationLog from './components/ConversationLog.jsx';
 import ConversateForm from './components/ConversateForm.jsx';
-import { ConvolistContext, ActiveConvoContext } from './context/ConversationContext.js';
+import { ConversationContext } from './context/ConversationContext.js';
+import { ModelContext } from './context/ModelContext.js';
+import { ConnectionContext } from './context/ConnectionContext.js';
 
 import * as ols from './services/ollamaService.js'
 import * as sts from './services/storageService.js'
@@ -124,7 +126,7 @@ function App() {
     });
   }
 
-  function onConversationChange(newconvoId) {
+  function onConversationChange(newconvoId) {    
     const convoData = convolist.find(c => c.id === newconvoId);
 
     updateActiveConvo(newconvoId)
@@ -138,43 +140,40 @@ function App() {
 
   return (
     <>
-      <ConvolistContext value={convolist}>
-        <ActiveConvoContext value={activeConvo}>
-          <NavigationHeader
-            ctx={connectionStatus}
-            activeModel={activeModel}
-            modellist={modellist}
-            updateActiveModel={updateActiveModel}
-            updateConversations={checkConversations} />
+      <ConversationContext value={{
+        convolist: convolist, 
+        activeConvoId: activeConvo, 
+        updateConvoList: updateConvolist,
+        updateActiveConvo: onConversationChange
+      }}>
+        <ModelContext value={{
+          model: activeModel,
+          modellist: modellist,
+          updateActiveModel: updateActiveModel,
+          updateModellist: updateModellist
+        }}>
+          <ConnectionContext value={{
+            connectionStatus: connectionStatus,
+            updateConnection: updateConnection
+          }}>
+            <NavigationHeader updateConversations={checkConversations} />
 
-          <main class="maincontent">
-            <ConversationList
-              list={convolist}
-              activeConvo={activeConvo}
-              model={activeModel}
-              updateConvoList={updateConvolist}
-              updateActiveConvo={onConversationChange}
-              scrollToConversationListBottom={scrollToConversationListBottom}
-              ctx={connectionStatus} />
+            <main class="maincontent">
+              <ConversationList 
+                scrollToConversationListBottom={scrollToConversationListBottom} />
 
-            <div class="conversation-container">
-              <ConversationLog
-                activeConvo={activeConvo}
-                convoData={convolist.find( c => c.id === activeConvo )}
-                removeMessage={removeConversationMessage}
-                wrapperRef={conversationMessagesWrapper} />
-              <ConversateForm
-                ready={connectionStatus === 1}
-                model={activeModel}
-                modellist={modellist}
-                list={convolist}
-                activeConvo={activeConvo}
-                requestOllamaResponse={converseWithOllama} />
-            </div>
-          </main>
+              <div class="conversation-container">
+                <ConversationLog 
+                  removeMessage={removeConversationMessage}
+                  wrapperRef={conversationMessagesWrapper}/>
+                <ConversateForm 
+                  requestOllamaResponse={converseWithOllama}/>
+              </div>
+            </main>
 
-        </ActiveConvoContext>
-      </ConvolistContext>
+          </ConnectionContext>
+        </ModelContext>
+      </ConversationContext>
     </>
   )
 }

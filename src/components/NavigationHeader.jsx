@@ -3,20 +3,20 @@ import { connectionStatusLabels } from '../services/connectionService.js';
 import SettingsIcon from './SettingsIcon.jsx'
 import NavigationWorkingIndicator from './NavigationWorkingIndicator.jsx';
 import ConversationSettings from './ConversationSettings.jsx';
-import * as sts from '../services/storageService.js';
-import { ConvolistContext, ActiveConvoContext } from '../context/ConversationContext.js';
 
-// ctx={connectionStatus}
-// activeModel
-// modellist
-// updateActiveModel
-// updateConversations
+import { ConversationContext } from '../context/ConversationContext.js';
+import { ConnectionContext } from '../context/ConnectionContext.js';
+
 function NavigationHeader(props) {
   const [showConvoSettings, setShowConvoSettings] = useState(false)
-  const ctxStatus = connectionStatusLabels[props.ctx];
-  const list = useContext(ConvolistContext);
-  const activeConvoId = useContext(ActiveConvoContext);
-  const activeConvo = list.find(l => l.id === activeConvoId);
+  const { connectionStatus: ctx } = useContext(ConnectionContext);
+  const ctxStatus = connectionStatusLabels[ctx];
+  const {
+    convolist: list,
+    activeConvoId
+  } = useContext(ConversationContext);
+
+  const activeConvo = list !== undefined ? list.find(l => l.id === activeConvoId) : undefined;
 
   function toggleConvoSettings() {
     setShowConvoSettings(!showConvoSettings);
@@ -33,7 +33,7 @@ function NavigationHeader(props) {
   // <button type="button" class="app-settings-btn" title="settings"><SettingsIcon /></button>
 
   return (
-    <nav class={"navigation-header " + ((props.ctx === 2) ? 'nav-error-alert' : '') }>
+    <nav class={"navigation-header " + ((ctx === 2) ? 'nav-error-alert' : '') }>
       <h1 class="app-name">
         llamalo
       </h1>
@@ -44,14 +44,11 @@ function NavigationHeader(props) {
       </>}
 
       <div class="app-connection-status">
-        {(props.ctx === 0) && <NavigationWorkingIndicator />}
+        {(ctx === 0) && <NavigationWorkingIndicator />}
         <p>connection: {ctxStatus}</p>
       </div>
 
-      {showConvoSettings && <ConversationSettings
-        model={props.model}
-        modellist={props.modellist}
-        updateActiveModel={props.updateActiveModel}
+      {showConvoSettings && <ConversationSettings 
         updateConversations={props.updateConversations}
         closeSettings={hideConvoSettings} />}
     </nav>

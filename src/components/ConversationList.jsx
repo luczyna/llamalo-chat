@@ -1,21 +1,18 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import * as sts from '../services/storageService.js';
 
 import ConversationMaker from './ConversationMaker.jsx';
+import { ModelContext } from '../context/ModelContext.js';
+import { ConversationContext } from '../context/ConversationContext.js';
+import { ConnectionContext } from '../context/ConnectionContext.js';
 
-// ConversationList props
-// {
-//   list: chatlist of ollama conversations
-//   model: current model
-//   activeConvo: current conversation
-//   updateConvoList: setState for convolist
-//   updateActiveConvo: wrapper for setState for active convo
-//   scrollToConvoListBottom: as it says
-//   ctx: status of connection to Ollama
-// }
+// props: {scrollToConversationListBottom}
 function ConversationList(props) {
   const [makingConvo, setConvoMakingToggle] = useState(false);
   const [convoName, setConvoName] = useState('');
+  const { model, updateModellist } = useContext(ModelContext);
+  const { connectionStatus: ctx } = useContext(ConnectionContext);
+  const {convolist, activeConvoId, updateConvoList, updateActiveConvo } = useContext(ConversationContext);
 
   function promptNewConversation() {
     setConvoMakingToggle(true);
@@ -23,12 +20,12 @@ function ConversationList(props) {
 
   function createNewConvo() {
     if (convoName.length) {
-      const newconvoId = sts.saveConversation(convoName, props.model, props.list);
+      const newconvoId = sts.saveConversation(convoName, model, convolist);
       cancelNewConvo();
 
       const updates = sts.getConversations();
-      props.updateConvoList(updates);
-      props.updateActiveConvo(newconvoId);
+      updateConvoList(updates);
+      updateActiveConvo(newconvoId);
     }
   }
 
@@ -42,34 +39,34 @@ function ConversationList(props) {
   }
 
   function setActiveConvo(event) {
-    if (props.ctx !== 1) return;
+    if (ctx !== 1) return;
 
     const id = event.target.getAttribute('datakey');
-    props.updateActiveConvo(id);
+    updateActiveConvo(id);
     window.setTimeout(() => {
       props.scrollToConversationListBottom();
     }, 150);
   }
 
   function deleteConvoFromStorage(convoId) {
-    if (props.activeConvo === convoId) {
-      props.updateActiveConvo('');
+    if (activeConvoId === convoId) {
+      updateActiveConvo('');
     }
 
-    sts.deleteConversation(convoId, props.list);
+    sts.deleteConversation(convoId, convolist);
     const updates = sts.getConversations();
-    props.updateConvoList(updates);
+    updateConvoList(updates);
   }
 
   return (
     <div class="conversation-list">
-      {!props.list.length && <p>there are no conversations...</p>}
+      {!convolist.length && <p>there are no conversations...</p>}
 
-      {(props.list.length > 0) &&
-        <ul className={"convolist-items " + ((props.ctx !== 1) ? ' cursor-not-allowed' : '' )}>
-          {props.list.map((item, i) => {
+      {(convolist.length > 0) &&
+        <ul className={"convolist-items " + ((ctx !== 1) ? ' cursor-not-allowed' : '' )}>
+          {convolist.map((item, i) => {
             return <li key={item.id}
-              className={"convoListName " + ((props.activeConvo === item.id) ? 'activeConvoName' : 'notactive')}>
+              className={"convoListName " + ((activeConvoId === item.id) ? 'activeConvoName' : 'notactive')}>
                 <span class="convoListValue" onClick={setActiveConvo} datakey={item.id}>{item.name}</span>
 
                 <button type="button" onClick={e => deleteConvoFromStorage(item.id)} title="delete this conversation" class="btn-link ml-2">&times;</button>
@@ -79,7 +76,7 @@ function ConversationList(props) {
         </ul>
       }
 
-      <div className={"list-controls" + ((props.ctx !== 1) ? ' cursor-not-allowed' : '')}>
+      <div className={"list-controls" + ((ctx !== 1) ? ' cursor-not-allowed' : '')}>
         {!makingConvo && <>
           <button onClick={promptNewConversation} type="button" class="btnb btn-default grow">create conversation</button>
         </>}
