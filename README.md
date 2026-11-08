@@ -29,4 +29,9 @@ Each conversation gets a default llm you can set, and you can change it any time
 
 All messages and conversations are stored locally on the browser using [LocalStorage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage).
 
-*more features to come!*
+## TODO
+
+* async function checkOllamaAvailability() in src/App.jsx needs to be checked more often, and the modelselection that occurs should only happen on the specific request, such as the first call to check the app's connection.
+* refactor of state into contextapi
+* style update and tailwind methodology compliance
+* add llamacpp server openai api spec option

@@ -130,7 +130,10 @@ function App() {
     const convoData = convolist.find(c => c.id === newconvoId);
 
     updateActiveConvo(newconvoId)
-    updateActiveModel(convoData.model)
+
+    if (convoData != undefined) {
+      updateActiveModel(convoData.model)
+    }
   }
 
   function removeConversationMessage(convoId, messageId) {
