@@ -127,11 +127,10 @@ function App() {
   }
 
   function onConversationChange(newconvoId) {    
-    const convoData = convolist.find(c => c.id === newconvoId);
-
     updateActiveConvo(newconvoId)
-
-    if (convoData != undefined) {
+    
+    if (newconvoId != '') {
+      const convoData = convolist.find(c => c.id === newconvoId);
       updateActiveModel(convoData.model)
     }
   }

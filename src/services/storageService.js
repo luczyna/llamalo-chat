@@ -11,13 +11,17 @@ export function getConversations() {
   if (savedConversations) {
     try {
       const parsed = JSON.parse(savedConversations);
-
+      
       if (parsed.length > 0) {
         return parsed;
+      } else {
+        return [];
       }
     } catch (e) {
       console.error('Failed to parse saved conversations:', e);
     }
+  } else {
+    return [];
   }
 }
 

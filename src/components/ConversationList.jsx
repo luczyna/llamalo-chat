@@ -12,7 +12,7 @@ function ConversationList(props) {
   const [convoName, setConvoName] = useState('');
   const { model, updateModellist } = useContext(ModelContext);
   const { connectionStatus: ctx } = useContext(ConnectionContext);
-  const {convolist, activeConvoId, updateConvoList, updateActiveConvo } = useContext(ConversationContext);
+  const { convolist, activeConvoId, updateConvoList, updateActiveConvo } = useContext(ConversationContext);
 
   function promptNewConversation() {
     setConvoMakingToggle(true);
